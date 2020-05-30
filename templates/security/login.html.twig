@@ -1,29 +1,44 @@
-{% extends 'base.html.twig' %}
+{% extends 'login_layout.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Login | Meeco{% endblock %}
 
-{% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% block login_box_error %}
+    {% if error|default(false) %}
+        <div class="text text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
+{% endblock %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+{% block login_form %}
+    <form method="post">
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+
+        <div class="form-group has-feedback">
+            <input type="text" name="email" class="form-control" placeholder="Email" value="{{ last_username }}">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
-    {% endif %}
+        <div class="form-group has-feedback">
+            <input name="password" type="password" class="form-control" placeholder="Password">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
+        <button class="btn btn-block btn-gradient" type="submit">Login</button>
+    </form>
+{% endblock %}
 
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+{% block login_actions %}
+    <br>
+    <div>
+        <a href="{{ path('adminlte_registration'|route_alias) }}" class="text-left">
+            Create account
+        </a>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+        <a href="{{ path('adminlte_password_reset'|route_alias) }}" style="float: right">
+            {{ 'Forgot password?'|trans({}, 'AdminLTEBundle') }}
+        </a>
+    </div>
 {% endblock %}

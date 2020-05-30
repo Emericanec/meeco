@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Processor\Security\RegistrationProcessor;
 use App\Request\Security\RegistrationRequest;
 use Exception;
@@ -33,6 +34,10 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        if ($this->isGranted(User::ROLE_USER)) {
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
         return $this->render('security/login.html.twig', [
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),
@@ -47,6 +52,10 @@ class SecurityController extends AbstractController
      */
     public function registration(RegistrationRequest $request, RegistrationProcessor $registrationProcessor): Response
     {
+        if ($this->isGranted(User::ROLE_USER)) {
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
         $error = null;
         if ($request->getRequest()->isMethod(Request::METHOD_POST)) {
             try {
@@ -70,6 +79,23 @@ class SecurityController extends AbstractController
      */
     public function registrationSuccess(): Response
     {
+        if ($this->isGranted(User::ROLE_USER)) {
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
         return $this->render('security/registration_success.html.twig');
+    }
+
+    /**
+     * @Route("/reset", name="app_reset_password")
+     * @return Response
+     */
+    public function resetPassword(): Response
+    {
+        if ($this->isGranted(User::ROLE_USER)) {
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
+        return $this->render('security/reset_password.html.twig');
     }
 }

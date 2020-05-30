@@ -20,7 +20,7 @@ admin_lte:
     routes:
         adminlte_welcome: home
         adminlte_profile: profile
-        adminlte_login: fos_user_security_login
-        adminlte_login_check: fos_user_security_check
-        adminlte_registration: fos_user_registration_register
-        adminlte_password_reset: fos_user_resetting_request
+        adminlte_login: app_login
+        adminlte_login_check: app_login
+        adminlte_registration: app_registration
+        adminlte_password_reset: app_reset_password
