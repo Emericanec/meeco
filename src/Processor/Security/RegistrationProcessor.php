@@ -18,8 +18,11 @@ class RegistrationProcessor
 
     private AfterRegistrationEmailProcessor $emailProcessor;
 
-    public function __construct(ObjectManager $entityManager, UserPasswordEncoderInterface $userPasswordEncoder, AfterRegistrationEmailProcessor $emailProcessor)
-    {
+    public function __construct(
+        ObjectManager $entityManager,
+        UserPasswordEncoderInterface $userPasswordEncoder,
+        AfterRegistrationEmailProcessor $emailProcessor
+    ) {
         $this->entityManager = $entityManager;
         $this->userPasswordEncoder = $userPasswordEncoder;
         $this->emailProcessor = $emailProcessor;
