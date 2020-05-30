@@ -2,7 +2,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "kevinpapst/adminlte-bundle": "^3.0",
@@ -23,6 +23,8 @@
         "symfony/orm-pack": "*",
         "symfony/process": "5.0.*",
         "symfony/security-bundle": "5.0.*",
+        "symfony/security-core": "5.0.*",
+        "symfony/security-http": "5.0.*",
         "symfony/serializer-pack": "*",
         "symfony/string": "5.0.*",
         "symfony/translation": "5.0.*",
