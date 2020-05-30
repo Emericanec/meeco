@@ -51,7 +51,7 @@ class SecurityController extends AbstractController
         if ($request->getRequest()->isMethod(Request::METHOD_POST)) {
             try {
                 if (!$request->validate()) {
-                    throw new RuntimeException('invalid request');
+                    throw new RuntimeException($request->getError());
                 }
 
                 $registrationProcessor->process($request->getEmail(), $request->getPassword());
@@ -62,9 +62,7 @@ class SecurityController extends AbstractController
             }
         }
 
-        return $this->render('security/registration.html.twig', [
-            'error' => $error
-        ]);
+        return $this->render('security/registration.html.twig', ['error' => $error]);
     }
 
     /**
