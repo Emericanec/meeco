@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Processor\Security;
 
 use App\Entity\User;
+use App\Processor\Email\AfterRegistrationEmailProcessor;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Throwable;
 
 class RegistrationProcessor
 {
@@ -14,10 +16,13 @@ class RegistrationProcessor
 
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
-    public function __construct(ObjectManager $entityManager, UserPasswordEncoderInterface $userPasswordEncoder)
+    private AfterRegistrationEmailProcessor $emailProcessor;
+
+    public function __construct(ObjectManager $entityManager, UserPasswordEncoderInterface $userPasswordEncoder, AfterRegistrationEmailProcessor $emailProcessor)
     {
         $this->entityManager = $entityManager;
         $this->userPasswordEncoder = $userPasswordEncoder;
+        $this->emailProcessor = $emailProcessor;
     }
 
     /**
@@ -34,6 +39,12 @@ class RegistrationProcessor
 
         $this->entityManager->persist($model);
         $this->entityManager->flush();
+
+        try {
+            $this->emailProcessor->send($model->getEmail());
+        } catch (Throwable $exception) {
+            //@todo add logger
+        }
 
         return $model;
     }
