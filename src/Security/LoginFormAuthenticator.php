@@ -91,7 +91,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     }
 
     /**
-     * @param $credentials
+     * @param array $credentials
      * @return string
      */
     public function getPassword($credentials): string
@@ -100,7 +100,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     }
 
     /**
-     * @param $credentials
+     * @param array $credentials
      * @return string
      */
     public function getEmail($credentials): string

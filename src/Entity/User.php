@@ -13,6 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    private const SALT = 'ee11cbb19052e40b07aac0ca060c23ee';
+
     public const ROLE_USER = 'ROLE_USER';
 
     /**
@@ -99,17 +101,11 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getSalt()
+    public function getSalt(): string
     {
-        // not needed when using the "bcrypt" algorithm in security.yaml
+        return self::SALT;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
