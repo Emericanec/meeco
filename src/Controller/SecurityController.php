@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Exception\Common\RequestValidationException;
+use App\Processor\Email\ResetPasswordEmailProcessor;
 use App\Processor\Security\RegistrationProcessor;
 use App\Request\Security\RegistrationRequest;
-use Exception;
+use App\Request\Security\ResetPasswordRequest;
 use LogicException;
-use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,14 +60,11 @@ class SecurityController extends AbstractController
         $error = null;
         if ($request->getRequest()->isMethod(Request::METHOD_POST)) {
             try {
-                if (!$request->validate()) {
-                    throw new RuntimeException($request->getError());
-                }
-
+                $request->validate();
                 $registrationProcessor->process($request->getEmail(), $request->getPassword());
 
                 return $this->redirectToRoute('app_registration_success');
-            } catch (Exception $exception) {
+            } catch (RequestValidationException $exception) {
                 $error = $exception->getMessage();
             }
         }
@@ -88,14 +86,40 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/reset", name="app_reset_password")
+     * @param ResetPasswordRequest $request
+     * @param ResetPasswordEmailProcessor $processor
      * @return Response
      */
-    public function resetPassword(): Response
+    public function resetPassword(ResetPasswordRequest $request, ResetPasswordEmailProcessor $processor): Response
     {
         if ($this->isGranted(User::ROLE_USER)) {
             return $this->redirectToRoute('admin_dashboard');
         }
 
-        return $this->render('security/reset_password.html.twig');
+        $error = null;
+        if ($request->getRequest()->isMethod(Request::METHOD_POST)) {
+            try {
+                $request->validate();
+                $processor->process($request->getUser());
+                return $this->redirectToRoute('app_reset_password_success');
+            } catch (RequestValidationException $exception) {
+                $error = $exception->getMessage();
+            }
+        }
+
+        return $this->render('security/reset_password.html.twig', ['error' => $error]);
+    }
+
+    /**
+     * @Route("/reset/success", name="app_reset_password_success")
+     * @return Response
+     */
+    public function resetPasswordSuccess(): Response
+    {
+        if ($this->isGranted(User::ROLE_USER)) {
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
+        return $this->render('security/reset_password_success.html.twig');
     }
 }

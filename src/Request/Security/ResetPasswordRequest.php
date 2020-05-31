@@ -2,33 +2,34 @@
 
 declare(strict_types=1);
 
+
 namespace App\Request\Security;
 
+use App\Entity\User;
 use App\Exception\Common\RequestValidationException;
 use App\Repository\UserRepository;
 use App\Request\AbstractRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Validator\Exception\ValidatorException;
 
-class RegistrationRequest extends AbstractRequest
+class ResetPasswordRequest extends AbstractRequest
 {
     private const PARAM_EMAIL = 'email';
-    private const PARAM_PASSWORD = 'password';
 
     private ?string $email;
 
-    private ?string $password;
+    private Request $request;
 
     private UserRepository $userRepository;
 
-    private Request $request;
+    private ?User $user;
 
     public function __construct(RequestStack $requestStack, UserRepository $userRepository)
     {
         $this->request = $this->getCurrentRequest($requestStack);
         $this->userRepository = $userRepository;
         $this->email = $this->request->get(self::PARAM_EMAIL);
-        $this->password = $this->request->get(self::PARAM_PASSWORD);
     }
 
     /**
@@ -41,26 +42,22 @@ class RegistrationRequest extends AbstractRequest
             throw new RequestValidationException('Email can not be empty');
         }
 
-        if (empty($this->password)) {
-            throw new RequestValidationException('Password can not be empty');
-        }
-
-        $user = $this->userRepository->findOneByEmail($this->email);
-        if (null !== $user) {
-            throw new RequestValidationException('Email already exist');
+        $this->user = $this->userRepository->findOneByEmail($this->email);
+        if (null === $this->user) {
+            throw new RequestValidationException('User with this email does not exist');
         }
 
         return true;
     }
 
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
     public function getEmail(): string
     {
         return $this->email;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
     }
 
     public function getRequest(): Request

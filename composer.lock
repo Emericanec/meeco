@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6428f56dcbf1fd2fc09fb012dbe3a2a5",
+    "content-hash": "123ff0f29f75a9b4769ad60ec8ce1563",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2328,6 +2328,121 @@
                 "psr-3"
             ],
             "time": "2020-03-23T09:12:05+00:00"
+        },
+        {
+            "name": "rollbar/rollbar",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rollbar/rollbar-php.git",
+                "reference": "245670b32d8e6072d6b364eda242f245879cdee9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/245670b32d8e6072d6b364eda242f245879cdee9",
+                "reference": "245670b32d8e6072d6b364eda242f245879cdee9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "monolog/monolog": "^1 || ^2",
+                "psr/log": "^1"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "mockery/mockery": "0.9.*",
+                "packfire/php5.3-compat": "*",
+                "phpmd/phpmd": "@stable",
+                "phpunit/phpunit": "4.8.* || ^5",
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "suggest": {
+                "fluent/logger": "Needed to use the 'fluent' handler for fluentd support",
+                "packfire/php5.3-compat": "for backward compatibility with PHP 5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rollbar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rollbar, Inc.",
+                    "email": "support@rollbar.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Monitors errors and exceptions and reports them to Rollbar",
+            "homepage": "http://github.com/rollbar/rollbar-php",
+            "keywords": [
+                "debugging",
+                "errors",
+                "exceptions",
+                "logging",
+                "monitoring"
+            ],
+            "time": "2019-10-02T06:24:31+00:00"
+        },
+        {
+            "name": "rollbar/rollbar-php-symfony-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rollbar/rollbar-php-symfony-bundle.git",
+                "reference": "30f6b3118bc7d26652c3a54683c698fc791ab846"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php-symfony-bundle/zipball/30f6b3118bc7d26652c3a54683c698fc791ab846",
+                "reference": "30f6b3118bc7d26652c3a54683c698fc791ab846",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.1",
+                "rollbar/rollbar": "^2",
+                "symfony/config": "^5.0",
+                "symfony/dependency-injection": "^5.0",
+                "symfony/http-kernel": "^5.0",
+                "symfony/monolog-bundle": "*",
+                "symfony/serializer": "*"
+            },
+            "require-dev": {
+                "matthiasnoback/symfony-dependency-injection-test": "^1.1",
+                "phpunit/phpunit": "^5.7",
+                "squizlabs/php_codesniffer": "^2.7",
+                "symfony/framework-bundle": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rollbar\\Symfony\\RollbarBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "OxCom",
+                    "email": "lancer.oxcom@gmail.com"
+                },
+                {
+                    "name": "Artur Moczulski",
+                    "email": "artur.moczulski@gmail.com"
+                }
+            ],
+            "description": "Bundle for Symfony that integrates Rollbar tracker",
+            "time": "2020-02-15T06:23:39+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -8044,7 +8159,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "rollbar/rollbar-php-symfony-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

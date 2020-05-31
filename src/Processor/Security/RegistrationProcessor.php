@@ -7,6 +7,7 @@ namespace App\Processor\Security;
 use App\Entity\User;
 use App\Processor\Email\AfterRegistrationEmailProcessor;
 use Doctrine\Persistence\ObjectManager;
+use Rollbar\Rollbar;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Throwable;
 
@@ -46,7 +47,10 @@ class RegistrationProcessor
         try {
             $this->emailProcessor->send($model->getEmail());
         } catch (Throwable $exception) {
-            //@todo add logger
+            Rollbar::error('after registration email send', [
+                'error_message' => $exception->getMessage(),
+                'error_trace' => $exception->getTraceAsString(),
+            ]);
         }
 
         return $model;
