@@ -38,16 +38,19 @@ class RegistrationRequest extends AbstractRequest
     public function validate(): bool
     {
         if (empty($this->email)) {
-            throw new RequestValidationException('Email can not be empty');
+            $this->setError('Email can not be empty');
+            throw new RequestValidationException($this->getError());
         }
 
         if (empty($this->password)) {
-            throw new RequestValidationException('Password can not be empty');
+            $this->setError('Password can not be empty');
+            throw new RequestValidationException($this->getError());
         }
 
         $user = $this->userRepository->findOneByEmail($this->email);
         if (null !== $user) {
-            throw new RequestValidationException('Email already exist');
+            $this->setError('Email already exist');
+            throw new RequestValidationException($this->getError());
         }
 
         return true;

@@ -39,12 +39,14 @@ class ResetPasswordRequest extends AbstractRequest
     public function validate(): bool
     {
         if (empty($this->email)) {
-            throw new RequestValidationException('Email can not be empty');
+            $this->setError('Email can not be empty');
+            throw new RequestValidationException($this->getError());
         }
 
         $this->user = $this->userRepository->findOneByEmail($this->email);
         if (null === $this->user) {
-            throw new RequestValidationException('User with this email does not exist');
+            $this->setError('User with this email does not exist');
+            throw new RequestValidationException($this->getError());
         }
 
         return true;
