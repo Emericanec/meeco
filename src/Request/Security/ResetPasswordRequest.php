@@ -11,7 +11,6 @@ use App\Repository\UserRepository;
 use App\Request\AbstractRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Validator\Exception\ValidatorException;
 
 class ResetPasswordRequest extends AbstractRequest
 {
