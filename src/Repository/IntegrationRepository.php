@@ -20,7 +20,7 @@ class IntegrationRepository extends ServiceEntityRepository
         parent::__construct($registry, Integration::class);
     }
 
-    public function findOneByType(User $user, int $type)
+    public function findOneByType(User $user, int $type): ?Integration
     {
         return $this->findOneBy(['user' => $user, 'type' => $type]);
     }

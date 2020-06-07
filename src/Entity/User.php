@@ -32,6 +32,7 @@ class User implements UserInterface
     private string $email;
 
     /**
+     * @var string[]
      * @ORM\Column(type="json")
      */
     private array $roles = [];
@@ -42,6 +43,7 @@ class User implements UserInterface
     private string $apiToken = '';
 
     /**
+     * @var Collection<int, Integration>
      * @ORM\OneToMany(targetEntity="Integration", mappedBy="user")
      */
     private Collection $integrations;
@@ -103,6 +105,10 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param string[] $roles
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;

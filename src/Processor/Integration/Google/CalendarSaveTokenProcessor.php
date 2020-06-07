@@ -12,7 +12,7 @@ use DateTime;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 
-class CreateCalendarIntegrationProcessor
+class CalendarSaveTokenProcessor
 {
     private ObjectManager $objectManager;
 
@@ -26,12 +26,13 @@ class CreateCalendarIntegrationProcessor
 
     /**
      * @param User $user
-     * @param string $token
+     * @param string $accessToken
+     * @param string $refreshToken
      * @param int $expiresIn
      * @return Integration
      * @throws Exception
      */
-    public function process(User $user, string $token, int $expiresIn): Integration
+    public function process(User $user, string $accessToken, string $refreshToken, int $expiresIn): Integration
     {
         $now = new DateTime();
         $expiredAt = (new DateTime())->add(new DateInterval("PT{$expiresIn}S"));
@@ -45,7 +46,8 @@ class CreateCalendarIntegrationProcessor
             $model->setCreatedAt($now);
         }
 
-        $model->setAccessToken($token);
+        $model->setAccessToken($accessToken);
+        $model->setRefreshToken($refreshToken);
         $model->setUpdatedAt($now);
         $model->setExpiredAt($expiredAt);
 

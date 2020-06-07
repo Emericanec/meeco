@@ -1,5 +1,6 @@
 parameters:
-	autoload_files:
-		- vendor/autoload.php
-	excludes_analyse:
-		- src/Migrations/*
+    checkMissingIterableValueType: false
+    autoload_files:
+        - vendor/autoload.php
+    excludes_analyse:
+        - src/Migrations/*

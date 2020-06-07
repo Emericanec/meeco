@@ -46,6 +46,11 @@ class Integration
     private string $access_token;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private string $refresh_token;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private DateTime $expiredAt;
@@ -100,6 +105,16 @@ class Integration
     public function getAccessToken(): string
     {
         return $this->access_token;
+    }
+
+    public function getRefreshToken(): string
+    {
+        return $this->refresh_token;
+    }
+
+    public function setRefreshToken(string $refresh_token): void
+    {
+        $this->refresh_token = $refresh_token;
     }
 
     public function setAccessToken(string $access_token): void

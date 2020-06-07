@@ -12,6 +12,10 @@ class Client
 {
     private const REDIRECT_URL = 'https://meeco.app/admin/integration/google/oauth/code';
 
+    private const ACCESS_TYPE = 'offline';
+
+    private const PROMPT = 'consent';
+
     private Google_Client $client;
 
     /**
@@ -24,6 +28,9 @@ class Client
         $client->setAuthConfig(__DIR__ . '/../../../config/google/client_id.json');
         $client->addScope(Google_Service_Calendar::CALENDAR);
         $client->setRedirectUri(self::REDIRECT_URL);
+        $client->setAccessType(self::ACCESS_TYPE);
+        $client->setPrompt(self::PROMPT);
+        $client->setIncludeGrantedScopes(true);
         $this->client = $client;
     }
 

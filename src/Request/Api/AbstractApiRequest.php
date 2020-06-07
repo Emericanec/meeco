@@ -28,7 +28,8 @@ abstract class AbstractApiRequest extends AbstractRequest
         $this->request = $this->getCurrentRequest($requestStack);
 
         try {
-            $this->content = json_decode($this->request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+            $content = (string)$this->request->getContent();
+            $this->content = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         } catch (Throwable $e) {
             $this->content = [];
         }
@@ -49,6 +50,11 @@ abstract class AbstractApiRequest extends AbstractRequest
         $this->user = $user;
     }
 
+    /**
+     * @param string $name
+     * @param null $default
+     * @return mixed|null
+     */
     public function get(string $name, $default = null)
     {
         return $this->content[$name] ?? $default;
