@@ -1,37 +1,91 @@
-{% extends '@AdminLTE/layout/default-layout.html.twig' %}
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/adminlte/adminlte.css') }}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% block stylesheets %}
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.core.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/adminlte.min.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.components.min.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.extra-components.min.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.pages.min.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.plugins.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/app.css">
+    {% endblock %}
+</head>
+<body>
+<div class="wrapper">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa  fa-bars"></i></a>
+            </li>
+        </ul>
+    </nav>
+
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="" class="brand-link text-center text-maroon">
+            {% block logo_large %}meeco{% endblock %}
+        </a>
+        <div class="sidebar">
+            <nav class="mt-2">
+                {% block sidebar_nav %}
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-dashboard"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('admin_settings') }}" class="nav-link">
+                                <i class="nav-icon fa fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('app_logout') }}" class="nav-link">
+                                <i class="nav-icon fa fa-sign-out"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                {% endblock %}
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>{% block page_title %}{% endblock %}</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                {% block page_content %}{% endblock %}
+            </div>
+        </section>
+    </div>
+</div>
+{% block javascript_asset %}
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/js/adminlte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/js/demo.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/js/pages/dashboard.min.js"></script>
 {% endblock %}
-
-{% block title %}{% endblock %}
-{% block page_title %}{% endblock %}
-{% block page_subtitle %}{% endblock %}
-{% block breadcrumb %}{% endblock %}
-{% block page_content %}{% endblock %}
-
-{% block logo_mini %}<b>Mee</b>{% endblock %}
-
-{% block logo_large %}<b>Meeco</b>{% endblock %}
-
-{% block sidebar_search %} {% endblock %}
-
-{% block footer %} {% endblock %}
-
-{% block sidebar_nav %}
-    <ul class="sidebar-menu tree" data-widget="tree">
-        <li>
-            <a href="#">
-                <i class="fa fa-dashboard"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ url('app_logout') }}">
-                <i class="fa fa-sign-out"></i>
-                <span>Logout</span>
-            </a>
-        </li>
-    </ul>
-{% endblock %}
+</body>
+</html>

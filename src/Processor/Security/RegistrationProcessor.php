@@ -39,6 +39,7 @@ class RegistrationProcessor
         $model = new User();
         $model->setEmail($email);
         $model->setPassword($this->userPasswordEncoder->encodePassword($model, $password));
+        $model->generateNewApiToken();
         $model->setRoles([User::ROLE_USER]);
 
         $this->entityManager->persist($model);

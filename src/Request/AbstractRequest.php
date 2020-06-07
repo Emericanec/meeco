@@ -12,9 +12,6 @@ abstract class AbstractRequest implements RequestInterface
 {
     protected string $error = '';
 
-    /**
-     * @return bool
-     */
     public function validate(): bool
     {
         return true;
