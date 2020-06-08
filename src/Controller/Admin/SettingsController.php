@@ -11,13 +11,15 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @IsGranted("ROLE_USER")
  */
-class DashboardController extends AbstractAdminController
+class SettingsController extends AbstractAdminController
 {
     /**
-     * @Route("/admin/dashboard", name="admin_dashboard")
+     * @Route("/admin/settings/general", name="admin_settings")
      */
-    public function index(): Response
+    public function general(): Response
     {
-        return $this->render('admin/dashboard.html.twig');
+        return $this->render('admin/settings/general.html.twig', [
+            'user' => $this->getCurrentUser()
+        ]);
     }
 }

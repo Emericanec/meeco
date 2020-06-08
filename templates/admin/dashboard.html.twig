@@ -1,37 +1,5 @@
-{% extends '@AdminLTE/layout/default-layout.html.twig' %}
+{% extends 'admin_layout.html.twig' %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/adminlte/adminlte.css') }}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-{% endblock %}
-
-{% block title %}{% endblock %}
-{% block page_title %}{% endblock %}
-{% block page_subtitle %}{% endblock %}
-{% block breadcrumb %}{% endblock %}
-{% block page_content %}{% endblock %}
-
-{% block logo_mini %}<b>Mee</b>{% endblock %}
-
-{% block logo_large %}<b>Meeco</b>{% endblock %}
-
-{% block sidebar_search %} {% endblock %}
-
-{% block footer %} {% endblock %}
-
-{% block sidebar_nav %}
-<ul class="sidebar-menu tree" data-widget="tree">
-    <li>
-        <a href="#">
-            <i class="fa fa-dashboard"></i>
-            <span>Dashboard</span>
-        </a>
-    </li>
-    <li>
-        <a href="{{ url('app_logout') }}">
-            <i class="fa fa-sign-out"></i>
-            <span>Logout</span>
-        </a>
-    </li>
-</ul>
+{% block page_content %}
+test
 {% endblock %}

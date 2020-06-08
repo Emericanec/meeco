@@ -8,13 +8,10 @@ use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-abstract class AbstractRequest
+abstract class AbstractRequest implements RequestInterface
 {
     protected string $error = '';
 
-    /**
-     * @return bool
-     */
     public function validate(): bool
     {
         return true;

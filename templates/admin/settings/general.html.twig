@@ -1,0 +1,50 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block page_title %}Settings{% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>General</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="general_api_token">Api Token:</label>
+                        <input id="general_api_token" class="form-control" readonly value="{{ user.getApiToken() }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="general_email">Email:</label>
+                        <input id="general_email" class="form-control" readonly value="{{ user.getEmail() }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <form method="post">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Change Password</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="old_password">Old Password:</label>
+                            <input id="old_password" class="form-control" type="password" name="old_password" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password">New Password:</label>
+                            <input id="new_password" class="form-control" type="password" name="new_password" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="repeat_new_password">Repeat New Password:</label>
+                            <input id="repeat_new_password" class="form-control" type="password" name="repeat_new_password" value="">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-default bg-maroon" name="change_password">Change Password</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

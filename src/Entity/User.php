@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -30,9 +32,21 @@ class User implements UserInterface
     private string $email;
 
     /**
+     * @var string[]
      * @ORM\Column(type="json")
      */
     private array $roles = [];
+
+    /**
+     * @ORM\Column(type="string", length=50, unique=true)
+     */
+    private string $apiToken = '';
+
+    /**
+     * @var Collection<int, Integration>
+     * @ORM\OneToMany(targetEntity="Integration", mappedBy="user")
+     */
+    private Collection $integrations;
 
     /**
      * @var string The hashed password
@@ -57,6 +71,18 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getApiToken(): string
+    {
+        return $this->apiToken;
+    }
+
+    public function generateNewApiToken(): string
+    {
+        $this->apiToken = Uuid::uuid4()->toString();
+
+        return $this->getApiToken();
+    }
+
     /**
      * A visual identifier that represents this user.
      *
@@ -79,6 +105,10 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param string[] $roles
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -110,5 +140,13 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Integration[]
+     */
+    public function getIntegrations(): array
+    {
+        return $this->integrations->getValues();
     }
 }

@@ -1,0 +1,56 @@
+{
+  "auth": {
+    "type": "APIKEY",
+    "params": [
+      {
+        "name": "api_token",
+        "title": "Enter api_token:"
+      }
+    ],
+    "connection": {
+      "qs": {
+        "api_token": "[[api_token]]"
+      }
+    }
+  },
+  "actions": [
+    {
+      "name": "random_number",
+      "forms": [
+        {
+          "name": "min",
+          "type": "number",
+          "title": "Min random number"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "title": "Max random number"
+        }
+      ],
+      "title": "Random number",
+      "requests": [
+        {
+          "url": "https://meeco.app/api/v1/math/random",
+          "method": "POST",
+          "headers": [
+            "Content-Type: application/json"
+          ],
+          "mapping": [
+            {
+              "name": "result",
+              "path": "$.result",
+              "type": "number",
+              "title": "Random number"
+            }
+          ],
+          "payload": {
+            "max": "[[max]]",
+            "min": "[[min]]"
+          }
+        }
+      ],
+      "description": "Generate random number"
+    }
+  ]
+}
