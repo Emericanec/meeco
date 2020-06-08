@@ -32,7 +32,7 @@ class CalendarRefreshTokenProcessor
      * @return Integration
      * @throws Exception
      */
-    public function process(User $user): Integration
+    public function refresh(User $user): Integration
     {
         $integration = $this->repository->findOneByType($user, Integration::TYPE_GOOGLE_CALENDAR);
         if (null === $integration) {
