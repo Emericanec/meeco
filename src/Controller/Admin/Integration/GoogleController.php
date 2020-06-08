@@ -6,8 +6,6 @@ namespace App\Controller\Admin\Integration;
 
 use App\Controller\Admin\AbstractAdminController;
 use App\Entity\User;
-use App\Processor\Integration\Google\CalendarGetListProcessor;
-use App\Processor\Integration\Google\CalendarRefreshTokenProcessor;
 use App\Processor\Integration\Google\CalendarSaveTokenProcessor;
 use App\Request\Integration\Google\CodeRequest;
 use App\Service\Google\Client;
