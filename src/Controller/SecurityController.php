@@ -63,7 +63,9 @@ class SecurityController extends AbstractController
                 $request->validate();
                 $registrationProcessor->process($request->getEmail(), $request->getPassword());
 
-                return $this->redirectToRoute('app_registration_success');
+                return $this->redirectToRoute('app_registration_success', [
+                    'userId' => md5($request->getEmail())
+                ]);
             } catch (RequestValidationException $exception) {
                 $error = $exception->getMessage();
             }
@@ -73,15 +75,17 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/registration/success", name="app_registration_success")
+     * @Route("/registration/success/{userId}", name="app_registration_success")
      */
-    public function registrationSuccess(): Response
+    public function registrationSuccess($userId = '123'): Response
     {
         if ($this->isGranted(User::ROLE_USER)) {
             return $this->redirectToRoute('admin_dashboard');
         }
 
-        return $this->render('security/registration_success.html.twig');
+        return $this->render('security/registration_success.html.twig', [
+            'confirmUri' => $userId
+        ]);
     }
 
     /**

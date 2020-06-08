@@ -45,7 +45,9 @@ class RegistrationProcessor
         $this->entityManager->flush();
 
         try {
-            $this->emailProcessor->send($model->getEmail());
+            $this->emailProcessor->send($model->getEmail(), [
+                'testo' => 'it is works'
+            ]);
         } catch (Throwable $exception) {
             Rollbar::error('after registration email send', [
                 'error_message' => $exception->getMessage(),
