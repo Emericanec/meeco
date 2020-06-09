@@ -1,3 +1,139 @@
-<a href="{{ url('app_login') }}">Login</a>
-<br>
-<a href="{{ url('app_registration') }}">Create account</a>
+<html>
+<head>
+    <title>{% block title %}meeco{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block stylesheets %}
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.core.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/adminlte.min.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.components.min.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.extra-components.min.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.pages.min.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.plugins.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/promo.css">
+    {% endblock %}
+</head>
+<body>
+<div class="wrapper">
+    <nav class="navbar navbar-expand navbar-white navbar-light">
+        <div class="nav-brand">
+            <h1>meeco</h1>
+        </div>
+        <div class="navbar-custom-menu navbar-right">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="btn" href="{{ url('app_login') }}">Sign in</a>
+                </li>
+                <li>
+                    <a class="btn btn-outline-primary" href="{{ url('app_registration') }}">Get Started Free</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="content">
+        <div class="container">
+            <div class="row" style="padding: 100px 0 50px 0px">
+                <div class="col-lg-6">
+                    <h1 style="font-size: 60px;">Make your chatbot smarter with <span class="colored">meeco</span></h1>
+                    <br>
+                    <h4>
+                        Integrate your chatbot with third-party systems and add <span
+                                class="colored">more actions</span> to your flows.
+                    </h4><br>
+                    <h4>
+                        Improve your interactive experience with your subscribers.
+                    </h4>
+                    <br>
+                    <a class="btn btn-extra-lg btn-outline-primary" href="{{ url('app_registration') }}">Get Started
+                        Free</a>
+                </div>
+                <div class="col-lg-6">
+                    <img style="width: 100%;"
+                         src="https://lh3.googleusercontent.com/proxy/dsRg0GOwQMzub9yDonJ6O89mWKs6EG_LjdubZSdEcEoW_BtxPR961OeOzgLiLHkTcmfbGBEQgHD1T3kS5HOKrSwl_4qfB3jQxeHGsi1U2rS7N-9Z8VRR">
+                </div>
+            </div>
+            <hr>
+            <div class="row" style="padding: 50px 0;">
+                <div class="text-center" style="width: 100%;">
+                    <h1 style="font-size: 60px;">Features</h1><br>
+                </div>
+            </div>
+            <div class="row" style="padding: 50px 0;">
+                <div class="col-lg-6">
+                    <h1>Google Services integration</h1>
+                    <p>
+                        Use the Google ecosystem to improve the capabilities of your chatbot. Collect statistics through
+                        Google analytics, add events to the calendar, or translate messages.
+                    </p>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img style="height: 150px;"
+                         src="https://cdn.freebiesupply.com/logos/thumbs/2x/google-icon-logo.png">
+                </div>
+            </div>
+            <div class="row" style="padding: 50px 0;">
+                <div class="col-lg-6 text-center">
+                    <img style="height: 150px;"
+                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Google_Maps_icon.svg/1200px-Google_Maps_icon.svg.png">
+                </div>
+                <div class="col-lg-6">
+                    <h1>Map service</h1>
+                    <p>
+                        Set the delivery zone to the client or calculate the time and price of delivery to the client
+                        dynamically based on geolocation data
+                    </p>
+                </div>
+            </div>
+            <div class="row" style="padding: 50px 0;">
+                <div class="col-lg-6">
+                    <h1>Validation service</h1>
+                    <p>
+                        Validation of data can check email and phone numbers from the subscriber and recognize the country by phone that allows you to save your money on SMS and email marketing
+                    </p>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img style="height: 150px;"
+                         src="https://cdn2.iconfinder.com/data/icons/hotel-outline-0910/512/Checking_in_mobile-online-internet-phone-smartphone-512.png">
+                </div>
+            </div>
+            <div class="row" style="padding: 50px 0;">
+                <div class="text-center" style="width: 100%;">
+                    <a class="btn btn-extra-lg btn-outline-primary" href="{{ url('app_registration') }}">Get Started
+                        Free</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <nav class="navbar navbar-expand navbar-white navbar-light">
+            <div class="nav-brand">
+                <h1>meeco</h1>
+            </div>
+            <div class="navbar-custom-menu navbar-right">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <span style="padding: .375rem .75rem; display: inline-block;">©2020, Meeco, Inc.</span>
+                    </li>
+                    <li>
+                        <a class="btn" href="{{ url('legal_privacy') }}">Privacy Policy</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </footer>
+</div>
+{% block javascript_asset %}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/js/adminlte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/js/demo.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/js/pages/dashboard.min.js"></script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,38 @@
+nav.navbar {
+    height: 72px;
+    padding: 0 200px;
+}
+
+div.nav-brand {
+    display: inline-block;
+}
+
+div.navbar-right {
+    margin-left: auto;
+}
+
+section.content {
+    min-height: calc(100vh - 72px);
+    background-color: #f7f7f7;
+}
+
+.btn-extra-lg {
+    font-size: 2.0rem;
+}
+
+span.colored
+{
+    color: #4f93cf;
+}
+
+.btn-outline-meeco
+{
+    color: #4f93cf;
+    border-color: #4f93cf;
+}
+
+.btn-outline-meeco:hover {
+    color: #fff;
+    background-color: #4f93cf;
+    border-color: #4f93cf;
+}
