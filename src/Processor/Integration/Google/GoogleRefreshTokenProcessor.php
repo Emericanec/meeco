@@ -12,41 +12,47 @@ use App\Service\Google\Client;
 use Exception;
 use Rollbar\Rollbar;
 
-class CalendarRefreshTokenProcessor
+class GoogleRefreshTokenProcessor
 {
     private Client $client;
 
     private IntegrationRepository $repository;
 
-    private CalendarSaveTokenProcessor $processor;
+    private GoogleSaveTokenProcessor $processor;
 
-    public function __construct(Client $client, IntegrationRepository $repository, CalendarSaveTokenProcessor $processor)
+    public function __construct(Client $client, IntegrationRepository $repository, GoogleSaveTokenProcessor $processor)
     {
         $this->client = $client;
         $this->repository = $repository;
         $this->processor = $processor;
     }
 
-    /**
-     * @param User $user
-     * @return Integration
-     * @throws Exception
-     */
     public function refresh(User $user): Integration
     {
-        $integration = $this->repository->findOneByType($user, Integration::TYPE_GOOGLE_CALENDAR);
+        $integration = $this->repository->findOneByType($user, Integration::TYPE_GOOGLE_SERVICE);
         if (null === $integration) {
             $exception = IntegrationException::notFoundException();
 
             Rollbar::error($exception, [
                 'userId' => $user->getId(),
-                'integrationType' => Integration::TYPE_GOOGLE_CALENDAR
+                'integrationType' => Integration::TYPE_GOOGLE_SERVICE
             ]);
 
             throw $exception;
         }
 
         $token = $this->client->getClient()->refreshToken($integration->getRefreshToken());
-        return $this->processor->process($user,  $token['access_token'], $token['refresh_token'], $token['expires_in']);
+
+        try {
+            return $this->processor->process($user, $token['access_token'], $token['refresh_token'], $token['expires_in']);
+        } catch (Exception $exception) {
+            $refreshTokenException = IntegrationException::refreshTokenException($exception);
+            Rollbar::error($refreshTokenException, [
+                'userId' => $user->getId(),
+                'integrationType' => Integration::TYPE_GOOGLE_SERVICE
+            ]);
+
+            throw $refreshTokenException;
+        }
     }
 }

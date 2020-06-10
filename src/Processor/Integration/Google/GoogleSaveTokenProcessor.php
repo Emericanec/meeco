@@ -10,9 +10,8 @@ use App\Repository\IntegrationRepository;
 use DateInterval;
 use DateTime;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
 
-class CalendarSaveTokenProcessor
+class GoogleSaveTokenProcessor
 {
     private ObjectManager $objectManager;
 
@@ -24,24 +23,16 @@ class CalendarSaveTokenProcessor
         $this->repository = $repository;
     }
 
-    /**
-     * @param User $user
-     * @param string $accessToken
-     * @param string $refreshToken
-     * @param int $expiresIn
-     * @return Integration
-     * @throws Exception
-     */
     public function process(User $user, string $accessToken, string $refreshToken, int $expiresIn): Integration
     {
         $now = new DateTime();
         $expiredAt = (new DateTime())->add(new DateInterval("PT{$expiresIn}S"));
 
-        $model = $this->repository->findOneByType($user, Integration::TYPE_GOOGLE_CALENDAR);
+        $model = $this->repository->findOneByType($user, Integration::TYPE_GOOGLE_SERVICE);
         if (null === $model) {
             $model = new Integration();
             $model->setUser($user);
-            $model->setType(Integration::TYPE_GOOGLE_CALENDAR);
+            $model->setType(Integration::TYPE_GOOGLE_SERVICE);
             $model->setTokenType(Integration::TOKEN_TYPE_BEARER);
             $model->setCreatedAt($now);
         }

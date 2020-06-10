@@ -6,7 +6,7 @@ namespace App\Controller\Admin\Integration;
 
 use App\Controller\Admin\AbstractAdminController;
 use App\Entity\User;
-use App\Processor\Integration\Google\CalendarSaveTokenProcessor;
+use App\Processor\Integration\Google\GoogleSaveTokenProcessor;
 use App\Request\Integration\Google\CodeRequest;
 use App\Service\Google\Client;
 use Exception;
@@ -37,10 +37,10 @@ class GoogleController extends AbstractAdminController
      * @Route("/admin/integration/google/oauth/code", name="admin_integration_google_oauth_code")
      * @param Client $client
      * @param CodeRequest $request
-     * @param CalendarSaveTokenProcessor $processor
+     * @param GoogleSaveTokenProcessor $processor
      * @return Response
      */
-    public function code(Client $client, CodeRequest $request, CalendarSaveTokenProcessor $processor): Response
+    public function code(Client $client, CodeRequest $request, GoogleSaveTokenProcessor $processor): Response
     {
         if (!$request->validate()) {
             return $this->redirectToRoute('admin_integration_google_oauth_invalid_code');

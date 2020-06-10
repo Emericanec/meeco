@@ -7,6 +7,7 @@ namespace App\Service\Google;
 use Google_Client;
 use Google_Exception;
 use Google_Service_Calendar;
+use Google_Service_People;
 
 class Client
 {
@@ -26,7 +27,10 @@ class Client
     {
         $client = new Google_Client();
         $client->setAuthConfig(__DIR__ . '/../../../config/google/client_id.json');
-        $client->addScope(Google_Service_Calendar::CALENDAR);
+        $client->addScope([
+            Google_Service_Calendar::CALENDAR,
+            Google_Service_People::CONTACTS,
+        ]);
         $client->setRedirectUri(self::REDIRECT_URL);
         $client->setAccessType(self::ACCESS_TYPE);
         $client->setPrompt(self::PROMPT);

@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Integration
 {
-    public const TYPE_GOOGLE_CALENDAR = 100;
+    public const TYPE_GOOGLE_SERVICE = 100;
 
     public const TOKEN_TYPE_BEARER = 1;
 
