@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Processor\Integration\Google;
+namespace App\Processor\Integration\Google\People;
 
 use App\Entity\Integration;
+use App\Processor\Integration\Google\AbstractGoogleProcessor;
+use App\Processor\Integration\Google\GoogleRefreshTokenProcessor;
 use App\Service\Google\Client;
 use Google_Client;
 use Google_Service_People_ListConnectionsResponse;
