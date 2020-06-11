@@ -51,6 +51,6 @@ class CalendarCreateEventProcessor extends AbstractGoogleProcessor
 
         $service = new Google_Service_Calendar($this->getFreshGoogleClient($integration));
 
-        return $service->events->insert('primary', $event);
+        return $service->events->insert($dto->getCalendarId(), $event);
     }
 }

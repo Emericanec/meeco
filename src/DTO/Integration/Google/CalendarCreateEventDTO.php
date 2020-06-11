@@ -19,10 +19,23 @@ class CalendarCreateEventDTO
 
     private ?string $description = null;
 
-    public function __construct(string $summary, DateTime $start)
+    private int $calendarId;
+
+    public function __construct(int $calendarId, string $summary, DateTime $start)
     {
-        $this->summary = $summary;
-        $this->start = $start;
+        $this->setCalendarId($calendarId);
+        $this->setSummary($summary);
+        $this->setStart($start);
+    }
+
+    public function getCalendarId(): int
+    {
+        return $this->calendarId;
+    }
+
+    public function setCalendarId(int $calendarId): void
+    {
+        $this->calendarId = $calendarId;
     }
 
     public function getSummary(): string

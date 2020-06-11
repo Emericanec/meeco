@@ -1,0 +1,21 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block page_title %}Settings{% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Google Service Integration</h4>
+                </div>
+                <div class="card-body">
+                    {% if googleServiceIntegration.isConnected %}
+                        <a class="btn btn-danger" href="{{ googleServiceIntegration.getAuthUrl() }}">Disconnect</a>
+                    {% else %}
+                        <a class="btn btn-primary" href="{{ googleServiceIntegration.getAuthUrl() }}">Connect</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

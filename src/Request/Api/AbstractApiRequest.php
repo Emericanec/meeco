@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use App\Request\AbstractRequest;
 use InvalidArgumentException;
 use Rollbar\Rollbar;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Throwable;
@@ -23,7 +24,7 @@ abstract class AbstractApiRequest extends AbstractRequest
 
     private User $user;
 
-    public function __construct(RequestStack $requestStack, UserRepository $userRepository)
+    public function __construct(RequestStack $requestStack, ManagerRegistry $managerRegistry)
     {
         $this->request = $this->getCurrentRequest($requestStack);
 
@@ -36,7 +37,13 @@ abstract class AbstractApiRequest extends AbstractRequest
 
         $this->apiToken = (string)$this->getRequest()->get('api_token', '');
 
+        $userRepository = $managerRegistry->getRepository(UserRepository::class);
+        if (!$userRepository instanceof UserRepository) {
+            throw new InvalidArgumentException('UserRepository not found');
+        }
+
         $user = $userRepository->findOneByApiToken($this->getApiToken());
+
         if (null === $user) {
             $exception = new InvalidArgumentException('Can not find user by api token');
             Rollbar::error($exception, [
@@ -48,6 +55,7 @@ abstract class AbstractApiRequest extends AbstractRequest
         }
 
         $this->user = $user;
+
     }
 
     /**

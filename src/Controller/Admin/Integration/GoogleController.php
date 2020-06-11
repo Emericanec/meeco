@@ -58,7 +58,7 @@ class GoogleController extends AbstractAdminController
             return $this->redirectToRoute('admin_integration_google_oauth_invalid_code');
         }
 
-        return $this->redirectToRoute('admin_integration_google_oauth');
+        return $this->redirectToRoute('admin_settings_integrations');
     }
 
     /**
