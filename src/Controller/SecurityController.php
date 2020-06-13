@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -64,7 +65,7 @@ class SecurityController extends AbstractController
                 $registrationProcessor->process($request->getEmail(), $request->getPassword());
 
                 return $this->redirectToRoute('app_registration_success', [
-                    'userId' => md5($request->getEmail())
+                    'userId'=> '777'
                 ]);
             } catch (RequestValidationException $exception) {
                 $error = $exception->getMessage();
@@ -75,17 +76,34 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/registration/success/{userId}", name="app_registration_success")
+     * @Route("/registration/activate_account/{userHash}", name="activate_account")
      */
-    public function registrationSuccess($userId = '123'): Response
+    public function activateAccount(string $userHash): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $em->getRepository(User::class)->findOneBy(['personalHash' => $userHash]);
+        if (empty($currentUser)) {
+            $message = 'Что-то пошло не так';
+        } else {
+            $currentUser->setIsActivated(true);
+            $em->persist($currentUser);
+            $em->flush();
+            $message = 'Аккаунт активирован';
+        }
+        return $this->render('email/confirmed.html.twig', [
+            'message' => $message
+        ]);
+    }
+
+    /**
+     * @Route("/registration/success", name="app_registration_success")
+     */
+    public function registrationSuccess(): Response
     {
         if ($this->isGranted(User::ROLE_USER)) {
             return $this->redirectToRoute('admin_dashboard');
         }
-
-        return $this->render('security/registration_success.html.twig', [
-            'confirmUri' => $userId
-        ]);
+        return $this->render('security/registration_success.html.twig');
     }
 
     /**

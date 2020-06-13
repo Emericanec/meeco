@@ -12,6 +12,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * * @ORM\Table(
+ *     name="user",
+ *     indexes={
+ *          @ORM\Index(name="idx_confirm_hash", columns={"personal_hash"}),
+ *     },
+ *)
  */
 class User implements UserInterface
 {
@@ -43,10 +49,22 @@ class User implements UserInterface
     private string $apiToken = '';
 
     /**
+      * @var boolean
+      * @ORM\Column(type="boolean")
+      */
+    private bool $isActivated = false;
+
+    /**
      * @var Collection<int, Integration>
      * @ORM\OneToMany(targetEntity="Integration", mappedBy="user")
      */
     private Collection $integrations;
+
+    /**
+     * @var string hash for activate account
+     * @ORM\Column(type="string", length=40)
+     */
+    private ?string $personalHash = '';
 
     /**
      * @var string The hashed password
@@ -63,6 +81,30 @@ class User implements UserInterface
     {
         return $this->email;
     }
+
+    public function getIsActivated(): bool
+    {
+        return $this->isActivated;
+    }
+
+    public function setIsActivated(bool $isActivated): self
+    {
+        $this->isActivated = $isActivated;
+
+        return $this;
+    }
+
+    public function getPersonalHash(): string
+   {
+       return $this->personalHash;
+   }
+
+   public function setPersonalHash($valueForHash): self
+   {
+       $this->personalHash = sha1($valueForHash);
+
+       return $this;
+   }
 
     public function setEmail(string $email): self
     {
@@ -149,4 +191,6 @@ class User implements UserInterface
     {
         return $this->integrations->getValues();
     }
+
+
 }

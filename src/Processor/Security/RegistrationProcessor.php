@@ -8,10 +8,12 @@ use App\Entity\User;
 use App\Processor\Email\AfterRegistrationEmailProcessor;
 use Doctrine\Persistence\ObjectManager;
 use Rollbar\Rollbar;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Throwable;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class RegistrationProcessor
+class RegistrationProcessor extends AbstractController
 {
     private ObjectManager $entityManager;
 
@@ -40,14 +42,18 @@ class RegistrationProcessor
         $model->setEmail($email);
         $model->setPassword($this->userPasswordEncoder->encodePassword($model, $password));
         $model->generateNewApiToken();
+        $model->setPersonalHash($model->getEmail());
         $model->setRoles([User::ROLE_USER]);
 
         $this->entityManager->persist($model);
         $this->entityManager->flush();
 
         try {
+            $confirmUri = $this->generateUrl('activate_account', [
+                'userHash' => $model->getPersonalHash()
+            ], UrlGeneratorInterface::ABSOLUTE_URL);
             $this->emailProcessor->send($model->getEmail(), [
-                'testo' => 'it is works'
+                'confirmUri'=> $confirmUri
             ]);
         } catch (Throwable $exception) {
             Rollbar::error('after registration email send', [
