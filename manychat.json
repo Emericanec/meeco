@@ -15,7 +15,9 @@
   },
   "actions": [
     {
+      "title": "Random number",
       "name": "random_number",
+      "description": "Generate random number",
       "forms": [
         {
           "name": "min",
@@ -28,7 +30,6 @@
           "title": "Max random number"
         }
       ],
-      "title": "Random number",
       "requests": [
         {
           "url": "https://meeco.app/api/v1/math/random",
@@ -49,8 +50,7 @@
             "min": "[[min]]"
           }
         }
-      ],
-      "description": "Generate random number"
+      ]
     }
   ]
 }
