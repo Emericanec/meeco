@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -24,6 +25,10 @@ class User implements UserInterface
     private const SALT = 'ee11cbb19052e40b07aac0ca060c23ee';
 
     public const ROLE_USER = 'ROLE_USER';
+
+    public const ACCOUNT_STATUS_UNCONFIRMED = 0;
+    public const ACCOUNT_STATUS_CONFIRMED = 1;
+
 
     /**
      * @ORM\Id()
@@ -49,10 +54,10 @@ class User implements UserInterface
     private string $apiToken = '';
 
     /**
-      * @var boolean
-      * @ORM\Column(type="boolean")
+      * @var integer
+      * @ORM\Column(type="integer")
       */
-    private bool $isActivated = false;
+    private int $accountStatus = self::ACCOUNT_STATUS_UNCONFIRMED;
 
     /**
      * @var Collection<int, Integration>
@@ -82,14 +87,14 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function getIsActivated(): bool
+    public function getAccountStatus(): int
     {
-        return $this->isActivated;
+        return $this->accountStatus;
     }
 
-    public function setIsActivated(bool $isActivated): self
+    public function setAccountStatus(Int $accountStatus): self
     {
-        $this->isActivated = $isActivated;
+        $this->accountStatus = $accountStatus;
 
         return $this;
     }

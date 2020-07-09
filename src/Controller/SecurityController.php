@@ -8,10 +8,13 @@ use App\Entity\User;
 use App\Exception\Common\RequestValidationException;
 use App\Processor\Email\ResetPasswordEmailProcessor;
 use App\Processor\Security\RegistrationProcessor;
+use App\Request\Security\EnterNewPasswordRequest;
 use App\Request\Security\RegistrationRequest;
 use App\Request\Security\ResetPasswordRequest;
+use Doctrine\DBAL\Types\TextType;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -64,9 +67,7 @@ class SecurityController extends AbstractController
                 $request->validate();
                 $registrationProcessor->process($request->getEmail(), $request->getPassword());
 
-                return $this->redirectToRoute('app_registration_success', [
-                    'userId'=> '777'
-                ]);
+                return $this->redirectToRoute('app_registration_success');
             } catch (RequestValidationException $exception) {
                 $error = $exception->getMessage();
             }
@@ -85,7 +86,7 @@ class SecurityController extends AbstractController
         if (empty($currentUser)) {
             $message = 'Что-то пошло не так';
         } else {
-            $currentUser->setIsActivated(true);
+            $currentUser->setAccountStatus(User::ACCOUNT_STATUS_CONFIRMED);
             $em->persist($currentUser);
             $em->flush();
             $message = 'Аккаунт активирован';
@@ -144,4 +145,40 @@ class SecurityController extends AbstractController
 
         return $this->render('security/reset_password_success.html.twig');
     }
+
+    /**
+     * @Route("/reset/resetPassword/{userId}", name="enter_new_password")
+     */
+
+    public function resetPasswordForm(string $userId): Response
+    {
+        $resetPassword = null;
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy(['personalHash' => $userId]);
+        if (empty($user)) {
+            return $this->render('security/error.html.twig');
+        }
+        if (!empty($_POST)) {
+            $resetPassword = $_POST['newPassword'] === $_POST['repeatedNewPassword'];
+        }
+        if ($resetPassword) {
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $user->setPassword(md5($_POST['newPassword']));
+                $em->persist($user);
+                $em->flush();
+            } catch (RequestValidationException $exception) {
+                $error = $exception->getMessage();
+                $this->render('security/reset_password_form.html.twig', [
+                    'error' => $error,
+                ]);
+            }
+            return $this->render('security/password_reseted.html.twig');
+        }
+        return $this->render('security/reset_password_form.html.twig', [
+            'isPasswordsEqual' => $resetPassword
+        ]);
+    }
+
 }
