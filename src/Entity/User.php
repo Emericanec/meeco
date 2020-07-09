@@ -7,17 +7,28 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * * @ORM\Table(
+ *     name="user",
+ *     indexes={
+ *          @ORM\Index(name="idx_confirm_hash", columns={"personal_hash"}),
+ *     },
+ *)
  */
 class User implements UserInterface
 {
     private const SALT = 'ee11cbb19052e40b07aac0ca060c23ee';
 
     public const ROLE_USER = 'ROLE_USER';
+
+    public const ACCOUNT_STATUS_UNCONFIRMED = 0;
+    public const ACCOUNT_STATUS_CONFIRMED = 1;
+
 
     /**
      * @ORM\Id()
@@ -43,10 +54,22 @@ class User implements UserInterface
     private string $apiToken = '';
 
     /**
+      * @var integer
+      * @ORM\Column(type="integer")
+      */
+    private int $accountStatus = self::ACCOUNT_STATUS_UNCONFIRMED;
+
+    /**
      * @var Collection<int, Integration>
      * @ORM\OneToMany(targetEntity="Integration", mappedBy="user")
      */
     private Collection $integrations;
+
+    /**
+     * @var string hash for activate account
+     * @ORM\Column(type="string", length=40)
+     */
+    private ?string $personalHash = '';
 
     /**
      * @var string The hashed password
@@ -63,6 +86,30 @@ class User implements UserInterface
     {
         return $this->email;
     }
+
+    public function getAccountStatus(): int
+    {
+        return $this->accountStatus;
+    }
+
+    public function setAccountStatus(Int $accountStatus): self
+    {
+        $this->accountStatus = $accountStatus;
+
+        return $this;
+    }
+
+    public function getPersonalHash(): string
+   {
+       return $this->personalHash;
+   }
+
+   public function setPersonalHash($valueForHash): self
+   {
+       $this->personalHash = sha1($valueForHash);
+
+       return $this;
+   }
 
     public function setEmail(string $email): self
     {
@@ -149,4 +196,6 @@ class User implements UserInterface
     {
         return $this->integrations->getValues();
     }
+
+
 }
